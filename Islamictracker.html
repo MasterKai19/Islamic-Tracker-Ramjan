@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Islamic Tracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary-color: #1a5fb4;
+            --secondary-color: #26a269;
+            --light-color: #f6f5f4;
+            --dark-color: #2d2d2d;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            background-color: #f0f2f5;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), #0d4a9c);
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .logo i {
+            font-size: 2rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        nav a:hover, nav a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .main-content {
+            display: flex;
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+        
+        .sidebar {
+            flex: 1;
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            height: fit-content;
+        }
+        
+        .content-area {
+            flex: 3;
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            min-height: 500px;
+        }
+        
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .welcome-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .progress-container {
+            background-color: var(--light-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, var(--secondary-color), #1e8b4f);
+            width: 0%;
+            border-radius: 10px;
+            transition: width 1s ease-in-out;
+        }
+        
+        .progress-text {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .activate-windows {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 1rem;
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .activate-windows a {
+            color: var(--primary-color);
+            font-weight: 600;
+            text-decoration: none;
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #eee;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        
+        table th, table td {
+            padding: 0.8rem;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        
+        table th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+        
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .checkbox {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .checkbox.checked {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+            position: relative;
+        }
+        
+        .checkbox.checked::after {
+            content: "✓";
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .surah-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+        
+        .surah-item {
+            padding: 0.8rem;
+            background-color: var(--light-color);
+            border-radius: 5px;
+            border-left: 4px solid var(--primary-color);
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+        
+        .surah-item:hover {
+            transform: translateY(-3px);
+            background-color: #e8f4fc;
+        }
+        
+        .dua-section {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px dashed #ddd;
+        }
+        
+        .dua-section:last-child {
+            border-bottom: none;
+        }
+        
+        .dua-arabic {
+            font-size: 1.8rem;
+            text-align: right;
+            margin-bottom: 1rem;
+            line-height: 1.8;
+            color: #1a5fb4;
+        }
+        
+        .dua-transliteration {
+            font-style: italic;
+            color: #555;
+            margin-bottom: 0.5rem;
+        }
+        
+        .dua-meaning {
+            color: #333;
+        }
+        
+        .day-tag {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+            margin-top: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .surah-list {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .dua-arabic {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-mosque"></i>
+                <span>Islamic Tracker</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="nav-link active" data-page="home">Home</a></li>
+                    <li><a href="#" class="nav-link" data-page="salah">Salah</a></li>
+                    <li><a href="#" class="nav-link" data-page="quran">Qur'an</a></li>
+                    <li><a href="#" class="nav-link" data-page="dua">Dua</a></li>
+                    <li><a href="#" class="nav-link" data-page="names">99 Names</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="container main-content">
+        <aside class="sidebar">
+            <div class="welcome-section">
+                <h2>Welcome Back</h2>
+                <p>Continue your spiritual journey</p>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-header">
+                    <h3>OVERALL COMPLETION</h3>
+                    <span id="progress-percent">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="progress-text" id="progress-text">0/294 TASKS COMPLETED</div>
+            </div>
+            
+            <div class="activate-windows">
+                <p><i class="fas fa-exclamation-triangle"></i> Activate Windows</p>
+                <p>Go to <a href="#">Settings</a> to activate Windows.</p>
+            </div>
+        </aside>
+        
+        <main class="content-area">
+            <!-- Home Page -->
+            <div id="home-page" class="page-content">
+                <h1>Dashboard</h1>
+                <p>Welcome to your Islamic tracker application. Here you can track your prayers, Quran reading, daily duas, and more.</p>
+                
+                <div style="margin-top: 2rem;">
+                    <h3>Recent Activity</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                        <div style="background-color: #e8f4fc; padding: 1rem; border-radius: 8px;">
+                            <h4><i class="fas fa-clock" style="color: var(--primary-color);"></i> Last Prayer</h4>
+                            <p>Maghrib - Completed today</p>
+                        </div>
+                        <div style="background-color: #f0f8f0; padding: 1rem; border-radius: 8px;">
+                            <h4><i class="fas fa-book" style="color: var(--secondary-color);"></i> Quran Progress</h4>
+                            <p>Last read: Al-Fatihah</p>
+                        </div>
+                        <div style="background-color: #fef7e0; padding: 1rem; border-radius: 8px;">
+                            <h4><i class="fas fa-hands-praying" style="color: #d4a017;"></i> Today's Dua</h4>
+                            <p>Day 1: Mercy</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Salah Page -->
+            <div id="salah-page" class="page-content hidden">
+                <h1>Salah Tracker</h1>
+                <p>Track your daily prayers for the last 30 days. Click on the boxes to mark prayers as completed.</p>
+                
+                <div style="overflow-x: auto;">
+                    <table id="salah-table">
+                        <thead>
+                            <tr>
+                                <th>DAY</th>
+                                <th>TAHAJJUD</th>
+                                <th>FAJR</th>
+                                <th>DHUHR</th>
+                                <th>ASR</th>
+                                <th>MAGHRIB</th>
+                                <th>ISHA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Rows will be generated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Quran Page -->
+            <div id="quran-page" class="page-content hidden">
+                <h1>Qur'an</h1>
+                <p>List of Surahs in the Holy Quran. Click on any surah to mark it as read.</p>
+                
+                <div class="surah-list" id="surah-list">
+                    <!-- Surah items will be generated by JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Dua Page -->
+            <div id="dua-page" class="page-content hidden">
+                <h1>30 Days of Dua</h1>
+                <p>Daily supplications for spiritual growth and connection with Allah.</p>
+                
+                <div id="dua-container">
+                    <!-- Dua sections will be generated by JavaScript -->
+                </div>
+            </div>
+            
+            <!-- 99 Names Page -->
+            <div id="names-page" class="page-content hidden">
+                <h1>99 Names of Allah</h1>
+                <p>The beautiful names of Allah (Asma ul-Husna) to remember and reflect upon.</p>
+                
+                <div style="margin-top: 2rem;">
+                    <p>This section is under development. Check back soon for the complete list of 99 Names with meanings.</p>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+                        <div style="background-color: #f0f8f0; padding: 1rem; border-radius: 8px; text-align: center;">
+                            <h4>Ar-Rahman</h4>
+                            <p>The Most Merciful</p>
+                        </div>
+                        <div style="background-color: #e8f4fc; padding: 1rem; border-radius: 8px; text-align: center;">
+                            <h4>Ar-Rahim</h4>
+                            <p>The Especially Merciful</p>
+                        </div>
+                        <div style="background-color: #fef7e0; padding: 1rem; border-radius: 8px; text-align: center;">
+                            <h4>Al-Malik</h4>
+                            <p>The King</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>Islamic Tracker &copy; 2023 | May Allah accept our good deeds</p>
+            <p style="margin-top: 0.5rem; font-size: 0.8rem;">This is a demo application for tracking Islamic practices</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Navigation functionality
+        const navLinks = document.querySelectorAll('.nav-link');
+        const pageContents = document.querySelectorAll('.page-content');
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all links
+                navLinks.forEach(item => item.classList.remove('active'));
+                
+                // Add active class to clicked link
+                this.classList.add('active');
+                
+                // Hide all pages
+                pageContents.forEach(page => page.classList.add('hidden'));
+                
+                // Show selected page
+                const pageId = this.getAttribute('data-page') + '-page';
+                document.getElementById(pageId).classList.remove('hidden');
+            });
+        });
+        
+        // Progress tracking
+        let completedTasks = 45; // Starting value
+        const totalTasks = 294;
+        
+        function updateProgress() {
+            const progressPercent = Math.round((completedTasks / totalTasks) * 100);
+            document.getElementById('progress-percent').textContent = progressPercent + '%';
+            document.getElementById('progress-fill').style.width = progressPercent + '%';
+            document.getElementById('progress-text').textContent = completedTasks + '/' + totalTasks + ' TASKS COMPLETED';
+        }
+        
+        // Initialize progress
+        updateProgress();
+        
+        // Generate Salah table
+        const salahTable = document.querySelector('#salah-table tbody');
+        const prayers = ['Tahajjud', 'Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+        
+        // Pre-filled data based on the screenshot
+        const prayerData = [
+            [false, false, false, false, false, false],
+            [false, false, false, false, true, true],
+            [false, false, false, false, false, true],
+            [false, false, false, false, true, true],
+            [false, false, false, false, false, true],
+            [false, false, false, false, true, true],
+            [false, false, false, false, false, true],
+            [false, false, false, false, true, true],
+            [false, false, false, false, false, true],
+            [false, false, false, false, true, true],
+            [false, false, false, false, false, true],
+            [false, false, false, false, true, true],
+            [false, false, false, false, false, true]
+        ];
+        
+        for (let day = 1; day <= 13; day++) {
+            const row = document.createElement('tr');
+            
+            // Day cell
+            const dayCell = document.createElement('td');
+            dayCell.textContent = day;
+            row.appendChild(dayCell);
+            
+            // Prayer cells
+            for (let prayerIndex = 0; prayerIndex < 6; prayerIndex++) {
+                const cell = document.createElement('td');
+                const checkbox = document.createElement('div');
+                checkbox.className = 'checkbox';
+                
+                // Set initial state based on data
+                if (prayerData[day-1][prayerIndex]) {
+                    checkbox.classList.add('checked');
+                }
+                
+                // Add click event
+                checkbox.addEventListener('click', function() {
+                    this.classList.toggle('checked');
+                    
+                    // Update completed tasks count
+                    if (this.classList.contains('checked')) {
+                        completedTasks++;
+                    } else {
+                        completedTasks--;
+                    }
+                    
+                    updateProgress();
+                });
+                
+                cell.appendChild(checkbox);
+                row.appendChild(cell);
+            }
+            
+            salahTable.appendChild(row);
+        }
+        
+        // Generate Quran surah list
+        const surahList = document.getElementById('surah-list');
+        const surahs = [
+            "AL-FATIHAH", "AL-BAQARAH", "AL-IMRAN", "AN-NISAA", "AL-MA'IDAH", "AL-AN'AM", 
+            "AL-A'RAF", "AL-ANFAL", "AT-TAWBA", "YUNUS", "HUD", "YUSUF", "AR-RA'D", 
+            "IBRAHIM", "AL-HIJR", "AN-NAHL", "AL-ISRA", "AL-KAHF", "MARYAM", "TA HA", 
+            "AL-ANBIYA", "AL-HAJJ", "AL-MU'MINUN", "AN-NUR", "AL-FURQAN", "ASH-SHU'ARA", 
+            "AN-NAML", "AL-QASAS", "AL-ANKABUT", "AR-RUM", "LUQMAN", "AS-SAJDA", 
+            "AL-AHZAB", "SABA'", "FATIR", "YA-SIN", "AS-SAFFAT", "SAAD", "AZ-ZUMAR", 
+            "GHAFIR", "FUSSILAT", "ASH-SHURAA", "AZ-ZUKHRUF", "AD-DUKHAN", "AL-JATHIYA", 
+            "AL-AHQAF", "MUHAMMAD", "AL-FATH", "AL-HUJURAT", "QAF", "AD-DHARIYAT", 
+            "AT-TUR", "AN-NAJM", "AL-QAMAR", "AR-RAHMAN", "AL-WAQI'AH", "AL-HADID", 
+            "AL-MUJADILA", "AL-HASHR", "AL-MUMTAHANA"
+        ];
+        
+        // Create surah items
+        surahs.forEach(surah => {
+            const surahItem = document.createElement('div');
+            surahItem.className = 'surah-item';
+            surahItem.textContent = surah;
+            
+            surahItem.addEventListener('click', function() {
+                this.classList.toggle('checked-item');
+                
+                // Add visual feedback
+                if (this.classList.contains('checked-item')) {
+                    this.style.backgroundColor = '#e8f7e8';
+                    this.style.borderLeftColor = 'var(--secondary-color)';
+                    completedTasks++;
+                } else {
+                    this.style.backgroundColor = 'var(--light-color)';
+                    this.style.borderLeftColor = 'var(--primary-color)';
+                    completedTasks--;
+                }
+                
+                updateProgress();
+            });
+            
+            surahList.appendChild(surahItem);
+        });
+        
+        // Generate Dua sections
+        const duaContainer = document.getElementById('dua-container');
+        const duas = [
+            {
+                day: 1,
+                title: "MERCY",
+                arabic: "رَبِّ اغْفِرْ وَارْحَمْ وَأَنْتَ خَيْرُ الرَّاحِمِينَ",
+                transliteration: "Rabbi-ghfir war-ham wa anta khairur-rahimeen",
+                meaning: "My Lord, forgive and have mercy, for You are the best of those who show mercy."
+            },
+            {
+                day: 2,
+                title: "RELIEF",
+                arabic: "يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ",
+                transliteration: "Ya Hayyu Ya Qayyum, bi-rahmatika astagheeth",
+                meaning: "O Living, O Sustainer, in Your mercy I seek relief."
+            },
+            {
+                day: 3,
+                title: "STEADFASTNESS",
+                arabic: "رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا وَثَبِّتْ أَقْدَامَنَا",
+                transliteration: "Rabbana afriq ‘alayna sabran wa thabbit aqdaman",
+                meaning: "Our Lord, pour upon us patience and plant firmly our feet."
+            },
+            {
+                day: 4,
+                title: "PROTECTION",
+                arabic: "اللَّهُمَّ احْفَظْنِي مِنْ بَيْنِ يَدَيَّ وَمِنْ خَلْفِي",
+                transliteration: "Allahum-mahfdzni min bayni yadayya wa min khalfi",
+                meaning: "O Allah, protect me from my front and from my back."
+            },
+            {
+                day: 5,
+                title: "GUIDANCE",
+                arabic: "اللَّهُمَّ اهْدِنِي وَسَدِّدْنِي",
+                transliteration: "Allahum-mahdini wa saddidni",
+                meaning: "O Allah, guide me and keep me on the straight path."
+            },
+            {
+                day: 6,
+                title: "FORGIVENESS",
+                arabic: "رَبَّنَا اغْفِرْ لَنَا ذُنُوبَنَا وَإِسْرَافَنَا فِي أَمْرِنَا",
+                transliteration: "Rabbana-ghfir lana dhunubana wa israfana fi amrina",
+                meaning: "Our Lord, forgive our sins and our excesses in our affairs."
+            },
+            {
+                day: 7,
+                title: "GENTLENESS",
+                arabic: "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ",
+                transliteration: "Allahumma anta Rabbi la ilaha illa Ant",
+                meaning: "O Allah, You are my Lord, there is no deity except You."
+            },
+            {
+                day: 8,
+                title: "WORLDLY GOOD",
+                arabic: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً",
+                transliteration: "Rabbana atina fid-dunya hasanatan",
+                meaning: "Our Lord, give us in this world that which is good."
+            },
+            {
+                day: 9,
+                title: "INNER LIGHT",
+                arabic: "اللَّهُمَّ اجْعَلْ فِي قَلْبِي نُورًا",
+                transliteration: "Allahum-maj'al fi qalbi nuran",
+                meaning: "O Allah, place light in my heart."
+            }
+        ];
+        
+        // Create dua sections
+        duas.forEach(dua => {
+            const duaSection = document.createElement('div');
+            duaSection.className = 'dua-section';
+            
+            duaSection.innerHTML = `
+                <div class="day-tag">DAY ${dua.day}: ${dua.title}</div>
+                <div class="dua-arabic">${dua.arabic}</div>
+                <div class="dua-transliteration">${dua.transliteration}</div>
+                <div class="dua-meaning">${dua.meaning}</div>
+            `;
+            
+            duaContainer.appendChild(duaSection);
+        });
+        
+        // Initialize with home page visible
+        document.getElementById('home-page').classList.remove('hidden');
+    </script>
+</body>
+</html>
